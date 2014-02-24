@@ -32,11 +32,11 @@ let loadWindow() =
                     @"(\p{Ll})(\P{Ll})", "$1 $2"
                 )
 
-            text.[12 .. index - 1] |> splitCamelCase
+            text.[11 .. index - 1] |> splitCamelCase
 
         System.IO.File.ReadLines(filePath)
         |> Seq.filter (fun x -> x.Contains "PlayerFlag_" && not (x.Contains "LastFlag"))
-        |> Seq.map (fun x -> formatText x)
+        |> Seq.map (fun x -> formatText (x.Trim()))
         |> Seq.iter (fun x -> addItem x)
 
     window.FlagList.SelectionChanged.Add(fun _ -> 
@@ -49,6 +49,7 @@ let loadWindow() =
     window.ClearButton.Click.Add(fun _ -> window.FlagList.SelectedIndex <- -1)
 
     window.OpenFile.Click.Add(fun _ ->
+        window.FlagList.Items.Clear()
         let fileDialog = OpenFileDialog()
         fileDialog.ShowDialog() 
         |> fun result -> 
