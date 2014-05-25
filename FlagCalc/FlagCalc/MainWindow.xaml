@@ -17,6 +17,6 @@
         </Menu>
         <ListBox x:Name="FlagList" Margin="2,20,2,22" SelectionMode="Multiple" Grid.ColumnSpan="2"/>
         <TextBox x:Name="TextCalc" Margin="2" IsReadOnly="True" VerticalAlignment="Bottom"/>
-        <Button x:Name="ClearButton" Grid.Column="1" Height="18" VerticalAlignment="Bottom" Margin="0,2,2,2" ToolTip="Clear flags" VerticalContentAlignment="Top" HorizontalContentAlignment="Right"/>
+        <Button x:Name="ClearButton" Grid.Column="1" Height="18" VerticalAlignment="Bottom" Margin="0,2,2,2" ToolTip="Clear selection" VerticalContentAlignment="Top" HorizontalContentAlignment="Right"/>
     </Grid>
 </Window>

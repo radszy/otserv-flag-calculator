@@ -19,9 +19,6 @@ let loadWindow() =
             |> ignore
 
         let formatText (text : string) =
-            let comma = text.IndexOf ','
-            let whitespace = text.IndexOf ' '
-            let index = if comma > whitespace then whitespace else comma
             let splitCamelCase str = 
                 Regex.Replace(
                     Regex.Replace(
@@ -32,12 +29,24 @@ let loadWindow() =
                     @"(\p{Ll})(\P{Ll})", "$1 $2"
                 )
 
-            text.[11 .. index - 1] |> splitCamelCase
+            let commaPosition = text.IndexOf ','
+            let whitespacePosition = text.IndexOf ' '
+            let selectTo = 
+                if commaPosition > whitespacePosition then 
+                    whitespacePosition 
+                else 
+                    commaPosition
+            let selectFrom = 11 // skips 'PlayerFlag_'
+
+            text.[selectFrom .. selectTo - 1] |> splitCamelCase
 
         System.IO.File.ReadLines(filePath)
         |> Seq.filter (fun x -> x.Contains "PlayerFlag_" && not (x.Contains "LastFlag"))
         |> Seq.map (fun x -> formatText (x.Trim()))
         |> Seq.iter (fun x -> addItem x)
+
+        if window.FlagList.Items.Count = 0 then
+            MessageBox.Show ("No flags found", "Error", MessageBoxButton.OK) |> ignore
 
     window.FlagList.SelectionChanged.Add(fun _ -> 
         let mutable flags = 0UL
